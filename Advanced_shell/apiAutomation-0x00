@@ -1,0 +1,2 @@
+#!/bin/bash
+curl -s -o data.json "https://pokeapi.co/api/v2/pokemon/Pikachu" 2 >errors.txt
