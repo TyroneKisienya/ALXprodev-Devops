@@ -1,0 +1,2 @@
+#!/bin/bash
+jq -r '"\(.name) is of type \(.type), weighs \(.weight)kgs and is \(.height)m tall"' data.json
