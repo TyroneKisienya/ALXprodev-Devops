@@ -30,7 +30,11 @@ for name in "${LIST[@]}"; do
     sleep "$DELAY"
 done
 
+echo "Running jobs"
+jobs
+
 echo "Waiting for all Pokémon to finish downloading..."
 wait
+
 echo "All Pokémon data fetched successfully!"
 kill
