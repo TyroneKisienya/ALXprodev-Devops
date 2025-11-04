@@ -33,3 +33,4 @@ done
 echo "Waiting for all Pokémon to finish downloading..."
 wait
 echo "All Pokémon data fetched successfully!"
+kill
