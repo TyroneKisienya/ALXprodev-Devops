@@ -1,0 +1,41 @@
+#!/bin/bash
+API_URL='https://pokeapi.co/api/v2/pokemon'
+DELAY=2
+
+#call the api
+Json_Response=$(curl -s "$API_URL")
+
+#test if it works
+if [ $? -ne 0 ]; then
+    echo 'Unsuccessful'
+    exit 1
+fi
+
+#expose the call send it to jq for compact output then send it to a while loop to look
+#for the key. The magic happens
+echo "$Json_Response" | jq -c '.results[]' | while read -r pokemon; do
+
+#generate the name and the url. use jq for raw output
+        name=$(echo "$pokemon" | jq -r '.name')
+        url=$(echo "$pokemon" | jq -r '.url')
+
+#sanitize the name more like ensure you give me even if the name does not look human LOL!
+#pass it to sed to do the thing, replace and more
+        sanitize_name=$(echo "$name" | sed 's/[^a-zA-Z0-9._-]/_/g')
+
+#take the sanitize_name and use it as the file name
+        filename="${sanitize_name}.json"
+
+#request the data from the API. It just had to be nested
+        details=$(curl -s "$url")
+
+#save the data returned
+
+        echo "$details" > "$filename"
+        echo "Created file: $filename"
+
+#delay in two second gap
+        echo "Sleeping for $DELAY seconds..."
+        sleep $DELAY
+
+done
