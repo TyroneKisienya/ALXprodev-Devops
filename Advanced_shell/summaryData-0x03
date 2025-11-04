@@ -4,4 +4,4 @@ echo "Name,Height (m),Weight (kg)" > pokemon_report.csv
 
 jq -r '"\(.name), \(.height), \(.weight)"' bulbasaur.json charmander.json charmeleon.json ivysaur.json venusaur.json >> pokemon_report.csv
 
-awk -F, 'NR>1 {sum_h+=$2; sum_w+=$3 count++} END {print "\nAverage height:" sum_h/count "\nAverage weight:" (sum_w/count)/100}' pokemon_report.csv >> pokemon_report.csv
+awk -F, 'NR>1 {sum_h+=$2; sum_w+=$3 count++} END {print "\nAverage height:" (sum_h/count)/10 " ""m" "\nAverage weight:" (sum_w/count)/100 " ""kg"}' pokemon_report.csv >> pokemon_report.csv
