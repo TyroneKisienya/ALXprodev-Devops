@@ -1,0 +1,35 @@
+#!/bin/bash
+
+API_URL="https://pokeapi.co/api/v2/pokemon"
+
+DELAY=2
+
+LIST=(bulbasaur ivysaur venusaur charmander charmeleon)
+
+echo "starting Parallel Pokemon..."
+
+fetch_pokemon(){
+    local name=$1
+    local output_file=${name}.json
+
+    echo "fetching data for $name (PID $$)"
+
+    details=$(curl -s -f "${API_URL}/${name}")
+     if [ $? -ne 0 ] || [ -z "$details" ]; then
+        echo "Failed to fetch $name"
+        return 1
+    fi
+
+    echo "$details" > "$output_file"
+    echo "saved $output_file"
+}
+
+for name in "${LIST[@]}"; do
+    fetch_pokemon "$name" & 
+    echo "launched bg process for $name (PID $!)"
+    sleep "$DELAY"
+done
+
+echo "Waiting for all Pokémon to finish downloading..."
+wait
+echo "All Pokémon data fetched successfully!"
